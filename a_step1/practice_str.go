@@ -1,6 +1,9 @@
 package a_step1
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // SubRoutine - 練習１
 func SubRoutine() {
@@ -73,4 +76,10 @@ func SubRoutine2() {
 	fmt.Printf("%s\n", string(r1[3:5]))
 	fmt.Printf("%s\n", string(r1[3:]))
 	fmt.Printf("%s\n", string(r1[:5]))
+
+	// 先頭から次のスペースまで読むって できんの（＾ｑ＾）？
+	r2 := []rune("apple バナナ Cherry")
+	res2 := strings.IndexRune(string(r2), ' ')
+	fmt.Printf("res2=%d\n", res2)
+
 }

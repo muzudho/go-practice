@@ -32,4 +32,28 @@ func main() {
 	// フォーマットも使ってみようぜ（＾ｑ＾）？
 	fmt.Printf("%d\n", s2[0])
 	fmt.Printf("%c\n", s2[0]) // %s ではなく %c。でもダメ文字化け
+
+	// runeの配列にしろとのこと
+	s3 := []rune(s2)
+
+	fmt.Println("日本語を読みたいぜ（＾ｑ＾）！")
+	// 先頭の数文字を読むには（＾ｑ＾）？
+	fmt.Println(s3[0])         // 26085
+	fmt.Println(string(s3[0])) // 日
+	fmt.Println(string(s3[0:1]))
+	fmt.Println(string(s3[0:2]))
+	fmt.Println(string(s3[:2]))
+	fmt.Println(string(s3[2:]))
+
+	// フォーマットも使ってみようぜ（＾ｑ＾）？
+	fmt.Printf("%d\n", s3[0])           // 26085
+	fmt.Printf("%c\n", s3[0])           // 日
+	fmt.Printf("%c\n", s3[0:3])         // [日 本 語]
+	fmt.Printf("%s\n", string(s3[0:3])) // 日本語
+
+	fmt.Println("runeの配列を回したらいいのかだぜ（＾ｑ＾）！？")
+	// rangeで取り出すとrune単位で取り出せる。
+	for _, c3 := range s3 {
+		fmt.Println(string(c3))
+	}
 }

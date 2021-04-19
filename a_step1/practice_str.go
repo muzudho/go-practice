@@ -63,7 +63,7 @@ func SubRoutine() {
 	}
 }
 
-// SubRoutine - 練習２
+// SubRoutine2 - 練習２
 func SubRoutine2() {
 	// runeの配列にしろとのこと
 	r1 := []rune("ハローワールドだぜ（＾ｑ＾）")
@@ -91,4 +91,13 @@ func SubRoutine2() {
 	fmt.Printf("%c is letter? = %t\n", r3[3], res3) // boolean は %t
 	res3 = unicode.IsNumber(r3[3])
 	fmt.Printf("%c is number? = %t\n", r3[3], res3)
+}
+
+// SubRoutine3 - 練習３
+func SubRoutine3() {
+	var s1 = "apple banana cherry"
+	fmt.Println(s1)
+
+	res1 := strings.Index(s1, "banana")
+	fmt.Println("Index: ", res1)
 }

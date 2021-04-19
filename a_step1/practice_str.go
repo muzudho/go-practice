@@ -100,4 +100,7 @@ func SubRoutine3() {
 
 	res1 := strings.Index(s1, "banana")
 	fmt.Println("Index: ", res1)
+
+	res2 := strings.HasPrefix(s1, "apple")
+	fmt.Println(res2)
 }

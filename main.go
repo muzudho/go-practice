@@ -22,8 +22,8 @@ func main() {
 		fmt.Printf("練習名：%s\n", practiceName)
 
 		switch practiceName {
-		case "bufio":
-			exercise.Bufio()
+		case "echo_stdio":
+			exercise.EchoStdio()
 		case "fmt":
 			exercise.Fmt()
 		case "strings":

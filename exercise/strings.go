@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// Strings - 文字列の練習１
+// Strings - 文字列の練習
 func Strings() {
 	var s1 = "apple banana cherry"
 	fmt.Println(s1) // 文字列表示

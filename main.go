@@ -19,15 +19,16 @@ func main() {
 			break // "exit"と入力されたらループを抜けます
 		}
 
-		fmt.Printf("練習名：%s", practiceName)
+		fmt.Printf("練習名：%s\n", practiceName)
 
-		if practiceName == "strings" {
-			// a_step1.SubRoutine()
-			// a_step1.SubRoutine2()
+		switch practiceName {
+		case "strings":
 			exercise.Strings()
+		case "fmt":
+			exercise.Fmt()
 		}
 
-		fmt.Print("\n練習名を入力してください　｜　例 hello　｜　例 exit　：")
+		fmt.Print("\n練習名を入力してください　｜　例 strings　｜　例 exit　：")
 	}
 
 }

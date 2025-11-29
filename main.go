@@ -22,10 +22,12 @@ func main() {
 		fmt.Printf("練習名：%s\n", practiceName)
 
 		switch practiceName {
-		case "strings":
-			exercise.Strings()
+		case "bufio":
+			exercise.Bufio()
 		case "fmt":
 			exercise.Fmt()
+		case "strings":
+			exercise.Strings()
 		}
 
 		fmt.Print("\n練習名を入力してください　｜　例 strings　｜　例 exit　：")

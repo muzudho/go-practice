@@ -21,7 +21,7 @@ func main() {
 	fs1.Parse(parameters)     // コマンドライン引数の解析
 
 	// デバッグ出力
-	fmt.Printf("p=%s\n", *pArgsMap["p"])
+	fmt.Printf("p=%s\n", *pArgsMap["p"]) // ヌルを指していれば、空文字列になるだけ。問題ない。
 
 	// 📁exerciseフォルダ下の📄ファイル名が練習名です。中には引数が必要なものもあります。練習名を入力してください　｜　例 strings　｜　例 exit　：
 	// を英語で：

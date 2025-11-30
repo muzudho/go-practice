@@ -11,6 +11,25 @@ import (
 )
 
 func main() {
+	// // コマンドラインを文字列として取得
+	// fullCmdLine := strings.Join(os.Args, " ")
+	// fmt.Printf("Full command line: [%s]\n", fullCmdLine)
+
+	// // コマンドライン引数登録関数
+	// func commandLineToPArgsMap(commandLine string) map[string]*string {
+	// 	// フラグセットを作成（エラー時はプログラムを終了）
+	// 	fs2 := flag.NewFlagSet("custom-args", flag.ExitOnError)
+	// 	// コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
+	// 	pArgsMap := make(map[string]*string)
+
+	// 	// コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
+	// 	pArgsMap["p"] = fs2.String("p", "", "Practice name. It is the file name under the 📁exercise folder.")
+
+	// 	parameters := strings.Split(commandLine, " ") // コマンドライン引数をすべて取得
+	// 	fs2.Parse(parameters[1:])     // コマンドライン引数の解析
+
+	// 	return pArgsMap
+	// }
 	fs1 := flag.CommandLine              // ← これでコマンドラインに紐づいたフラグセットをゲット！
 	pArgsMap := make(map[string]*string) // コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
 

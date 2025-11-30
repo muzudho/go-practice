@@ -5,8 +5,9 @@ Go言語の練習（＾～＾）
 ```shell
 go build
 
-# Run
+## Run
 go-practice
+## go-practice -p strings
 ```
 
 

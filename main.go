@@ -11,14 +11,10 @@ import (
 )
 
 func main() {
-	// // コマンドラインを文字列として取得
-	// fullCmdLine := strings.Join(os.Args, " ")
-	// fmt.Printf("Full command line: [%s]\n", fullCmdLine)
-
 	// // コマンドライン引数登録関数
 	// func commandLineToPArgsMap(commandLine string) map[string]*string {
 	// 	// フラグセットを作成（エラー時はプログラムを終了）
-	// 	fs2 := flag.NewFlagSet("custom-args", flag.ExitOnError)
+	// 	fs2 := flag.NewFlagSet("custom-args", flag.ExitOnError)	// 2. コマンドラインに紐づいたフラグセットを取得
 	// 	// コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
 	// 	pArgsMap := make(map[string]*string)
 
@@ -30,17 +26,18 @@ func main() {
 
 	// 	return pArgsMap
 	// }
-	fs1 := flag.CommandLine              // ← これでコマンドラインに紐づいたフラグセットをゲット！
-	pArgsMap := make(map[string]*string) // コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
 
-	// コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
-	pArgsMap["p"] = fs1.String("p", "", "Practice name. It is the file name under the 📁exercise folder.")
+	fullCmdLine := strings.Join(os.Args, " ") // 1. コマンドラインを文字列として取得
+	fmt.Printf("Full command line: [%s]\n", fullCmdLine)
 
-	parameters := os.Args[1:] // コマンドライン引数をすべて取得
-	fs1.Parse(parameters)     // コマンドライン引数の解析
+	fs1 := flag.CommandLine                                                                               // 2. コマンドラインに紐づいたフラグセットを取得
+	pArgsMap := make(map[string]*string)                                                                  // 3. コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
+	pArgsMap["p"] = fs1.String("p", "", "Practice name. It is the file name under the 📁exercise folder.") // 4. コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
 
-	// デバッグ出力
+	parameters := os.Args[1:]            // 5. コマンドライン引数をすべて取得
+	fs1.Parse(parameters)                // 6. コマンドライン引数の解析
 	fmt.Printf("p=%s\n", *pArgsMap["p"]) // ヌルを指していれば、空文字列になるだけ。問題ない。
+	// 7. （あれば）必須のコマンドライン引数の確認
 
 	// 📁exerciseフォルダ下の📄ファイル名が練習名です。中には引数が必要なものもあります。練習名を入力してください　｜　例 strings　｜　例 exit　：
 	// を英語で：

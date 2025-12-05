@@ -27,10 +27,17 @@ func main() {
 	// 	return pArgsMap
 	// }
 
-	fullCmdLine := strings.Join(os.Args, " ") // 1. コマンドラインを文字列として取得
-	fmt.Printf("Full command line: [%s]\n", fullCmdLine)
+	commandLine1 := strings.Join(os.Args, " ") // 1. コマンドラインを文字列として取得
 
-	fs1 := flag.CommandLine                                                                              // 2. コマンドラインに紐づいたフラグセットを取得
+	if commandLine1 == "exit" {
+		return // "exit"と入力されたらプログラムを抜けます
+	}
+
+	onCommandLineEntered(commandLine1)
+
+	fs1 := flag.NewFlagSet("main-args", flag.ExitOnError) // 1. 新規フラグセットを作成（エラー時はプログラムを終了）
+
+	//fs1 := flag.CommandLine                                                                              // 2. コマンドラインに紐づいたフラグセットを取得
 	pArgsMap := make(map[string]*string)                                                                 // 3. コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
 	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 4. コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
 
@@ -39,20 +46,20 @@ func main() {
 	fmt.Printf("p=%s\n", *pArgsMap["p"]) // ヌルを指していれば、空文字列になるだけ。問題ない。
 	// 7. （あれば）必須のコマンドライン引数の確認
 
-	// 📁exerciseフォルダ下の📄ファイル名が練習名です。中には引数が必要なものもあります。練習名を入力してください　｜　例 strings　｜　例 exit　：
-	// を英語で：
-	fmt.Print("Practice name is the file name under the 📁exercise folder. Please enter the practice name ｜ e.g. strings ｜ e.g. exit ：")
+	fmt.Print("Please enter the program name ｜ e.g. hello ｜ e.g. exit ：")
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for scanner.Scan() { // 標準入力を読込みます
-		commandLine := scanner.Text() // 1行ずつテキストを取得します
+		commandLine2 := scanner.Text() // 1行ずつテキストを取得します
 
-		if commandLine == "exit" {
+		if commandLine2 == "exit" {
 			break // "exit"と入力されたらループを抜けます
 		}
 
+		onCommandLineEntered(commandLine2)
+
 		// practiceName を空白でスプリットし、最初の要素を取得します
-		tokens := strings.Split(commandLine, " ")
+		tokens := strings.Split(commandLine2, " ")
 		practiceName := tokens[0]
 
 		fmt.Printf("練習名：%s\n", practiceName)
@@ -75,5 +82,8 @@ func main() {
 
 		fmt.Print("\n練習名を入力してください　｜　例 strings　｜　例 exit　：")
 	}
+}
 
+func onCommandLineEntered(commandLine string) {
+	fmt.Printf("Command line entered: [%s]\n", commandLine)
 }

@@ -6,7 +6,9 @@ Go言語の練習（＾～＾）
 go build
 
 ## Run
-go-practice
+##      -p はプログラム名。📁 exercise 下のファイル名が入る。
+go-practice -p hello
+## go-practice -p fmt
 ## go-practice -p strings
 ```
 

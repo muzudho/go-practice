@@ -14,7 +14,7 @@ func main() {
 	// // コマンドライン引数登録関数
 	// func commandLineToPArgsMap(commandLine string) map[string]*string {
 	// 	// フラグセットを作成（エラー時はプログラムを終了）
-	// 	fs2 := flag.NewFlagSet("custom-args", flag.ExitOnError)	// 2. コマンドラインに紐づいたフラグセットを取得
+	// 	fs2 := flag.NewFlagSet("custom-args", flag.ExitOnError)	// 2. 新規フラグセットを作成（エラー時はプログラムを終了）
 	// 	// コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
 	// 	pArgsMap := make(map[string]*string)
 
@@ -30,9 +30,9 @@ func main() {
 	fullCmdLine := strings.Join(os.Args, " ") // 1. コマンドラインを文字列として取得
 	fmt.Printf("Full command line: [%s]\n", fullCmdLine)
 
-	fs1 := flag.CommandLine                                                                               // 2. コマンドラインに紐づいたフラグセットを取得
-	pArgsMap := make(map[string]*string)                                                                  // 3. コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
-	pArgsMap["p"] = fs1.String("p", "", "Practice name. It is the file name under the 📁exercise folder.") // 4. コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
+	fs1 := flag.CommandLine                                                                              // 2. コマンドラインに紐づいたフラグセットを取得
+	pArgsMap := make(map[string]*string)                                                                 // 3. コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
+	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 4. コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
 
 	parameters := os.Args[1:]            // 5. コマンドライン引数をすべて取得
 	fs1.Parse(parameters)                // 6. コマンドライン引数の解析
@@ -67,6 +67,8 @@ func main() {
 			exercise.EchoProxy(tokens[1])
 		case "fmt":
 			exercise.Fmt()
+		case "hello":
+			exercise.Hello()
 		case "strings":
 			exercise.Strings()
 		}

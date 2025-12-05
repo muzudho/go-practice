@@ -17,11 +17,14 @@ func main() {
 		return // "exit"と入力されたらプログラムを抜けます
 	}
 
-	commandName, pArgsMap := parseCommandLine(commandLine1)
-	fmt.Printf("commandName=%s, p=%s\n", commandName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
+	_, pArgsMap := parseCommandLine(commandLine1)
+	//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
-	fmt.Print("Please enter the program name ｜ e.g. hello ｜ e.g. exit ：")
+	executeProgram(*pArgsMap["p"], pArgsMap) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
+
+	programName := ""
 	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Please enter the program name ｜ e.g. hello ｜ e.g. exit ：")
 
 	for scanner.Scan() { // 標準入力を読込みます
 		commandLine2 := scanner.Text() // 1行ずつテキストを取得します
@@ -30,31 +33,17 @@ func main() {
 			break // "exit"と入力されたらループを抜けます
 		}
 
-		commandName, pArgsMap = parseCommandLine(commandLine2)
-		fmt.Printf("commandName=%s, p=%s\n", commandName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
+		programName, pArgsMap = parseCommandLine(commandLine2)
+		//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
-		switch *pArgsMap["p"] {
-		case "echo_stdio":
-			exercise.EchoStdio()
-		case "echo_proxy":
-			// ```
-			// echo_proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
-			// ```
-			exercise.EchoProxy(*pArgsMap["f"])
-		case "fmt":
-			exercise.Fmt()
-		case "hello":
-			exercise.Hello()
-		case "strings":
-			exercise.Strings()
-		}
+		executeProgram(programName, pArgsMap)
 
 		fmt.Print("\n練習名を入力してください　｜　例 strings　｜　例 exit　：")
 	}
 }
 
 func parseCommandLine(commandLine string) (string, map[string]*string) {
-	fmt.Printf("Command line entered: [%s]\n", commandLine)
+	//fmt.Printf("Command line entered: [%s]\n", commandLine)
 
 	// コマンドラインを半角空白で区切る
 	tokens := strings.Split(commandLine, " ")
@@ -69,4 +58,22 @@ func parseCommandLine(commandLine string) (string, map[string]*string) {
 	fs1.Parse(subsequentTokens)    // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
 
 	return tokens[0], pArgsMap
+}
+
+func executeProgram(programName string, pArgsMap map[string]*string) {
+	switch programName {
+	case "echo_stdio":
+		exercise.EchoStdio()
+	case "echo_proxy":
+		// ```
+		// echo_proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
+		// ```
+		exercise.EchoProxy(*pArgsMap["f"])
+	case "fmt":
+		exercise.Fmt()
+	case "hello":
+		exercise.Hello()
+	case "strings":
+		exercise.Strings()
+	}
 }

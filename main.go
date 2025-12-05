@@ -35,17 +35,6 @@ func main() {
 
 	onCommandLineEntered(commandLine1)
 
-	fs1 := flag.NewFlagSet("main-args", flag.ExitOnError) // 1. 新規フラグセットを作成（エラー時はプログラムを終了）
-
-	//fs1 := flag.CommandLine                                                                              // 2. コマンドラインに紐づいたフラグセットを取得
-	pArgsMap := make(map[string]*string)                                                                 // 3. コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
-	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 4. コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
-
-	parameters := os.Args[1:]            // 5. コマンドライン引数をすべて取得
-	fs1.Parse(parameters)                // 6. コマンドライン引数の解析
-	fmt.Printf("p=%s\n", *pArgsMap["p"]) // ヌルを指していれば、空文字列になるだけ。問題ない。
-	// 7. （あれば）必須のコマンドライン引数の確認
-
 	fmt.Print("Please enter the program name ｜ e.g. hello ｜ e.g. exit ：")
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -86,4 +75,14 @@ func main() {
 
 func onCommandLineEntered(commandLine string) {
 	fmt.Printf("Command line entered: [%s]\n", commandLine)
+
+	fs1 := flag.NewFlagSet("main-args", flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
+	//fs1 := flag.CommandLine                             // 1. コマンドラインで入力された引数のマッピング（FlagSet）を作成
+
+	pArgsMap := make(map[string]*string)                                                                 // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
+	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
+
+	subsequentTokens := os.Args[1:]      // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
+	fs1.Parse(subsequentTokens)          // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
+	fmt.Printf("p=%s\n", *pArgsMap["p"]) // 6. ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 }

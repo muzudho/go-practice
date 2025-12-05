@@ -85,7 +85,7 @@ func executeCommand(practiceName string, arguments map[string]string) {
 		exercise.EchoStdio()
 	case "echo_proxy":
 		// ```
-		// echo_proxy Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
+		// echo_proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
 		// ```
 		exercise.EchoProxy(arguments["exe"])
 	case "fmt":

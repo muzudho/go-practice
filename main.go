@@ -30,22 +30,17 @@ func main() {
 			break // "exit"と入力されたらループを抜けます
 		}
 
-		parseCommandLine(commandLine2)
+		commandName, pArgsMap = parseCommandLine(commandLine2)
+		fmt.Printf("commandName=%s, p=%s\n", commandName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
-		// practiceName を空白でスプリットし、最初の要素を取得します
-		tokens := strings.Split(commandLine2, " ")
-		practiceName := tokens[0]
-
-		fmt.Printf("練習名：%s\n", practiceName)
-
-		switch practiceName {
+		switch *pArgsMap["p"] {
 		case "echo_stdio":
 			exercise.EchoStdio()
 		case "echo_proxy":
 			// ```
-			// echo_proxy Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
+			// echo_proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
 			// ```
-			exercise.EchoProxy(tokens[1])
+			exercise.EchoProxy(*pArgsMap["f"])
 		case "fmt":
 			exercise.Fmt()
 		case "hello":
@@ -65,10 +60,10 @@ func parseCommandLine(commandLine string) (string, map[string]*string) {
 	tokens := strings.Split(commandLine, " ")
 
 	fs1 := flag.NewFlagSet("main-args", flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
-	//fs1 := flag.CommandLine                             // 1. コマンドラインで入力された引数のマッピング（FlagSet）を作成
 
 	pArgsMap := make(map[string]*string)                                                                 // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
 	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
+	pArgsMap["f"] = fs1.String("f", "", "Target file path.")
 
 	subsequentTokens := tokens[1:] // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
 	fs1.Parse(subsequentTokens)    // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈

@@ -11,29 +11,14 @@ import (
 )
 
 func main() {
-	// // コマンドライン引数登録関数
-	// func commandLineToPArgsMap(commandLine string) map[string]*string {
-	// 	// フラグセットを作成（エラー時はプログラムを終了）
-	// 	fs2 := flag.NewFlagSet("custom-args", flag.ExitOnError)	// 2. 新規フラグセットを作成（エラー時はプログラムを終了）
-	// 	// コマンドライン引数名と、その値が入る変数へのポインターを紐づけるマップ
-	// 	pArgsMap := make(map[string]*string)
-
-	// 	// コマンドライン引数を登録し、後でその値が入る変数へのポインターを取得
-	// 	pArgsMap["p"] = fs2.String("p", "", "Practice name. It is the file name under the 📁exercise folder.")
-
-	// 	parameters := strings.Split(commandLine, " ") // コマンドライン引数をすべて取得
-	// 	fs2.Parse(parameters[1:])     // コマンドライン引数の解析
-
-	// 	return pArgsMap
-	// }
-
 	commandLine1 := strings.Join(os.Args, " ") // 1. コマンドラインを文字列として取得
 
 	if commandLine1 == "exit" {
 		return // "exit"と入力されたらプログラムを抜けます
 	}
 
-	onCommandLineEntered(commandLine1)
+	commandName, pArgsMap := parseCommandLine(commandLine1)
+	fmt.Printf("commandName=%s, p=%s\n", commandName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 	fmt.Print("Please enter the program name ｜ e.g. hello ｜ e.g. exit ：")
 	scanner := bufio.NewScanner(os.Stdin)
@@ -45,7 +30,7 @@ func main() {
 			break // "exit"と入力されたらループを抜けます
 		}
 
-		onCommandLineEntered(commandLine2)
+		parseCommandLine(commandLine2)
 
 		// practiceName を空白でスプリットし、最初の要素を取得します
 		tokens := strings.Split(commandLine2, " ")
@@ -73,8 +58,11 @@ func main() {
 	}
 }
 
-func onCommandLineEntered(commandLine string) {
+func parseCommandLine(commandLine string) (string, map[string]*string) {
 	fmt.Printf("Command line entered: [%s]\n", commandLine)
+
+	// コマンドラインを半角空白で区切る
+	tokens := strings.Split(commandLine, " ")
 
 	fs1 := flag.NewFlagSet("main-args", flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
 	//fs1 := flag.CommandLine                             // 1. コマンドラインで入力された引数のマッピング（FlagSet）を作成
@@ -82,7 +70,8 @@ func onCommandLineEntered(commandLine string) {
 	pArgsMap := make(map[string]*string)                                                                 // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
 	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
 
-	subsequentTokens := os.Args[1:]      // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
-	fs1.Parse(subsequentTokens)          // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
-	fmt.Printf("p=%s\n", *pArgsMap["p"]) // 6. ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
+	subsequentTokens := tokens[1:] // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
+	fs1.Parse(subsequentTokens)    // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
+
+	return tokens[0], pArgsMap
 }

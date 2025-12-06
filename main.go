@@ -13,8 +13,8 @@ import (
 func main() {
 	commandLine1 := strings.Join(os.Args, " ") // 1. コマンドラインを文字列として取得
 
-	if commandLine1 == "exit" || commandLine1 == "quit" {
-		return // "exit" または "quit" と入力されたらプログラムを抜けます。
+	if commandLine1 == "quit" {
+		return // "quit" と入力されたらプログラムを抜けます。
 	}
 
 	_, pArgsMap := parseCommandLine(commandLine1)
@@ -34,8 +34,8 @@ func main() {
 
 		commandLine2 := scanner.Text() // 1行ずつテキストを取得します
 
-		if commandLine2 == "exit" || commandLine2 == "quit" {
-			return // "exit" または "quit" と入力されたらプログラムを抜けます。
+		if commandLine2 == "quit" {
+			return // "quit" と入力されたらプログラムを抜けます。
 		}
 
 		programName, pArgsMap = parseCommandLine(commandLine2)

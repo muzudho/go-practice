@@ -24,9 +24,14 @@ func main() {
 
 	programName := ""
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Print("Please enter the program name ｜ e.g. hello ｜ e.g. exit ：")
 
-	for scanner.Scan() { // 標準入力を読込みます
+	for {
+		fmt.Print(">>> ")
+
+		if !scanner.Scan() { // 標準入力を読込みます
+			break // 入力がなければループを抜けます
+		}
+
 		commandLine2 := scanner.Text() // 1行ずつテキストを取得します
 
 		if commandLine2 == "exit" {
@@ -37,8 +42,6 @@ func main() {
 		//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 		executeProgram(programName, pArgsMap)
-
-		fmt.Print("\n練習名を入力してください　｜　例 strings　｜　例 exit　：")
 	}
 }
 

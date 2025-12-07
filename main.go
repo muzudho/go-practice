@@ -57,9 +57,10 @@ func parseCommandLineArguments(commandName string, subsequentTokens []string) ma
 	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
 	pArgsMap["f"] = fs1.String("f", "", "Target file path.")
 
-	// これだとダブルクォーテーションを解釈してくれない：
+	// 例： string -s "apple banana cherry"
+	// 以下だとダブルクォーテーションを解釈してくれない。-s は `"apple` になる：
 	// 		pArgsMap["s"] = fs1.String("s", "", "Target string.")
-	// ３行になるが、以下のように書くと、ダブルクォーテーションを解釈してくれる：
+	// ３行になるが、以下のように書くと、ダブルクォーテーションを解釈してくれる。 -s は `apple banana cherry` になる：
 	var s string
 	fs1.StringVar(&s, "s", "", "Target string.")
 	pArgsMap["s"] = &s

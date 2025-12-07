@@ -17,12 +17,12 @@ func main() {
 		return // "quit" と入力されたらプログラムを抜けます。
 	}
 
-	_, pArgsMap := parseCommandLine(commandLine1)
+	programName := os.Args[0]
+	pArgsMap := parseCommandLineArguments(programName, commandLine1)
 	//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 	executeProgram(*pArgsMap["p"], pArgsMap) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
 
-	programName := ""
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -38,20 +38,21 @@ func main() {
 			return // "quit" と入力されたらプログラムを抜けます。
 		}
 
-		programName, pArgsMap = parseCommandLine(commandLine2)
+		programName := strings.Split(commandLine2, " ")[0]
+		pArgsMap = parseCommandLineArguments(programName, commandLine2)
 		//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 		executeProgram(programName, pArgsMap)
 	}
 }
 
-func parseCommandLine(commandLine string) (string, map[string]*string) {
+func parseCommandLineArguments(commandName string, commandLine string) map[string]*string {
 	//fmt.Printf("Command line entered: [%s]\n", commandLine)
 
 	// コマンドラインを半角空白で区切る
 	tokens := strings.Split(commandLine, " ")
 
-	fs1 := flag.NewFlagSet("main-args", flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
+	fs1 := flag.NewFlagSet(commandName, flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
 
 	pArgsMap := make(map[string]*string)                                                                 // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
 	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
@@ -61,7 +62,7 @@ func parseCommandLine(commandLine string) (string, map[string]*string) {
 	subsequentTokens := tokens[1:] // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
 	fs1.Parse(subsequentTokens)    // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
 
-	return tokens[0], pArgsMap
+	return pArgsMap
 }
 
 func executeProgram(programName string, pArgsMap map[string]*string) {

@@ -3,10 +3,16 @@ package exercise
 import (
 	"fmt"
 	"strings"
+	"unicode/utf8"
 )
 
-// Strings - 文字列の練習
-func Strings() {
+// String - 文字列の練習
+func String(targetString string) {
+
+	var s = targetString // 変数名を短縮
+
+	fmt.Printf("The number of letters in \"%s\" is %d.\n", s, utf8.RuneCountInString(s)) // 文字数を出力。RuneはUnicode文字。
+
 	var s1 = "apple banana cherry"
 	fmt.Println(s1) // 文字列表示
 

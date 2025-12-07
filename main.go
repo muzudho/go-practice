@@ -79,7 +79,7 @@ func executeProgram(programName string, pArgsMap map[string]*string) {
 		exercise.Fmt(*pArgsMap["s"])
 	case "hello":
 		exercise.Hello()
-	case "strings":
-		exercise.Strings()
+	case "string":
+		exercise.String(*pArgsMap["s"])
 	}
 }

@@ -10,6 +10,9 @@ go build
 go-practice -p hello
 ## go-practice -p fmt
 ## go-practice -p strings
+
+## go-practice
+## >>> fmt -s "Hello, world!!"
 ```
 
 

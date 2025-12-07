@@ -7,9 +7,9 @@ import (
 )
 
 // Fmt - 文字列出力の練習
-func Fmt() {
+func Fmt(targetString string) {
 
-	var s = "Hello, world!"
+	var s = targetString
 	fmt.Println(s)
 
 	// 先頭の数文字を読むには（＾ｑ＾）？

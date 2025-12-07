@@ -56,6 +56,7 @@ func parseCommandLine(commandLine string) (string, map[string]*string) {
 	pArgsMap := make(map[string]*string)                                                                 // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
 	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
 	pArgsMap["f"] = fs1.String("f", "", "Target file path.")
+	pArgsMap["s"] = fs1.String("s", "", "Target string.")
 
 	subsequentTokens := tokens[1:] // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
 	fs1.Parse(subsequentTokens)    // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
@@ -73,7 +74,7 @@ func executeProgram(programName string, pArgsMap map[string]*string) {
 		// ```
 		exercise.EchoProxy(*pArgsMap["f"])
 	case "fmt":
-		exercise.Fmt()
+		exercise.Fmt(*pArgsMap["s"])
 	case "hello":
 		exercise.Hello()
 	case "strings":

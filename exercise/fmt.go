@@ -23,24 +23,24 @@ func Fmt(targetString string) {
 	fmt.Printf("%d\n", s[0]) // 数
 	fmt.Printf("%c\n", s[0]) // %s ではなく %c
 
-	var s2 = "日本語だったらどうなる（＾ｑ＾）？"
-	fmt.Println(s2)
+	// s = "日本語だったらどうなる（＾ｑ＾）？"
+	fmt.Println(s)
 
 	// 先頭の数文字を読むには（＾ｑ＾）？
-	fmt.Println(s2[0])   // なんか１文字取ったら数が出てくるぜ（＾ｑ＾）
-	fmt.Println(s2[0:1]) // 文字化け
-	fmt.Println(s2[0:2]) // 2bytes 文字化け
-	fmt.Println(s2[0:3]) // 日
-	fmt.Println(s2[0:4]) // 日と1byte文字化け。文字ごとのバイトサイズは分からんなあ
-	fmt.Println(s2[:2])
-	fmt.Println(s2[2:])
+	fmt.Println(s[0])   // なんか１文字取ったら数が出てくるぜ（＾ｑ＾）
+	fmt.Println(s[0:1]) // 文字化け
+	fmt.Println(s[0:2]) // 2bytes 文字化け
+	fmt.Println(s[0:3]) // 日
+	fmt.Println(s[0:4]) // 日と1byte文字化け。文字ごとのバイトサイズは分からんなあ
+	fmt.Println(s[:2])
+	fmt.Println(s[2:])
 
 	// フォーマットも使ってみようぜ（＾ｑ＾）？
-	fmt.Printf("%d\n", s2[0])
-	fmt.Printf("%c\n", s2[0]) // %s ではなく %c。でもダメ文字化け
+	fmt.Printf("%d\n", s[0])
+	fmt.Printf("%c\n", s[0]) // %s ではなく %c。でもダメ文字化け
 
 	// runeの配列にしろとのこと
-	r3 := []rune(s2)
+	r3 := []rune(s)
 
 	fmt.Println("日本語を読みたいぜ（＾ｑ＾）！")
 	// 先頭の数文字を読むには（＾ｑ＾）？
@@ -78,14 +78,14 @@ func Fmt(targetString string) {
 	fmt.Printf("%s\n", string(r1[:5]))
 
 	// 先頭から次のスペースまで読むって できんの（＾ｑ＾）？
-	r2 := []rune("apple バナナ Cherry")
+	r2 := []rune(s)
 	res2 := strings.IndexRune(string(r2), ' ')
 	fmt.Printf("res2=%d\n", res2)
 	// 先頭から次のスペースまでの文字を読みたいぜ（＾ｑ＾）
 	fmt.Printf("0:2=%s\n", string(r2[0:res2])) // apple
 
 	// 読み取った文字が、アルファベットか、数か 区別する方法あんの（＾ｑ＾）？
-	r4 := []rune("体重は90kgぐらいかだぜ（＾ｑ＾）？")
+	r4 := []rune(s)
 	res3 := unicode.IsLetter(r4[3])
 	fmt.Printf("%c is letter? = %t\n", r4[3], res3) // boolean は %t
 	res3 = unicode.IsNumber(r4[3])

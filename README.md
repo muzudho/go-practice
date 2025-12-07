@@ -12,7 +12,11 @@ go-practice -p hello
 ## go-practice -p strings
 
 ## go-practice
+## >>> character -s "B"
 ## >>> fmt -s "Hello, world!!"
+## >>> fmt -s "日本語だったらどうなる（＾ｑ＾）？"
+## >>> fmt -s "apple バナナ Cherry"
+## >>> fmt -s "体重は90kgぐらいかだぜ（＾ｑ＾）？"
 ```
 
 

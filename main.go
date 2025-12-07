@@ -66,6 +66,8 @@ func parseCommandLine(commandLine string) (string, map[string]*string) {
 
 func executeProgram(programName string, pArgsMap map[string]*string) {
 	switch programName {
+	case "character":
+		exercise.Character(*pArgsMap["s"])
 	case "echo_stdio":
 		exercise.EchoStdio()
 	case "echo_proxy":

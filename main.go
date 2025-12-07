@@ -18,7 +18,7 @@ func main() {
 	}
 
 	programName := os.Args[0]
-	pArgsMap := parseCommandLineArguments(programName, commandLine1)
+	pArgsMap := parseCommandLineArguments(programName, os.Args[1:])
 	//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 	executeProgram(*pArgsMap["p"], pArgsMap) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
@@ -38,19 +38,18 @@ func main() {
 			return // "quit" と入力されたらプログラムを抜けます。
 		}
 
-		programName := strings.Split(commandLine2, " ")[0]
-		pArgsMap = parseCommandLineArguments(programName, commandLine2)
+		tokens := strings.Split(commandLine2, " ") // コマンドラインを半角空白で区切る
+		programName := tokens[0]
+		pArgsMap = parseCommandLineArguments(programName, tokens[1:])
 		//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 		executeProgram(programName, pArgsMap)
 	}
 }
 
-func parseCommandLineArguments(commandName string, commandLine string) map[string]*string {
+// subsequentTokens - コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
+func parseCommandLineArguments(commandName string, subsequentTokens []string) map[string]*string {
 	//fmt.Printf("Command line entered: [%s]\n", commandLine)
-
-	// コマンドラインを半角空白で区切る
-	tokens := strings.Split(commandLine, " ")
 
 	fs1 := flag.NewFlagSet(commandName, flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
 
@@ -59,8 +58,7 @@ func parseCommandLineArguments(commandName string, commandLine string) map[strin
 	pArgsMap["f"] = fs1.String("f", "", "Target file path.")
 	pArgsMap["s"] = fs1.String("s", "", "Target string.")
 
-	subsequentTokens := tokens[1:] // 4. コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
-	fs1.Parse(subsequentTokens)    // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
+	fs1.Parse(subsequentTokens) // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
 
 	return pArgsMap
 }

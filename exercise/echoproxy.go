@@ -92,4 +92,5 @@ func receiveStdout(epStdout io.ReadCloser) {
 			print(string(bytes))
 		}
 	}
+	// 終わりが分からないので、ここには来ない。
 }

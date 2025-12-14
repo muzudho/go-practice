@@ -72,19 +72,37 @@ func parseCommandLineArguments(commandName string, subsequentTokens []string) ma
 
 func executeProgram(programName string, pArgsMap map[string]*string) {
 	switch programName {
+	// +---+
+	// | C |
+	// +---+
 	case "character":
 		exercise.Character(*pArgsMap["s"])
-	case "mapping_char":
-		exercise.MappingChar()
-	case "echo_proxy":
+	// +---+
+	// | E |
+	// +---+
+	case "echo-proxy":
 		// ```
-		// echo_proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
+		// echo-proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
 		// ```
 		exercise.EchoProxy(*pArgsMap["f"])
+	// +---+
+	// | F |
+	// +---+
 	case "fmt":
 		exercise.Fmt(*pArgsMap["s"])
+	// +---+
+	// | H |
+	// +---+
 	case "hello":
 		exercise.Hello()
+	// +---+
+	// | M |
+	// +---+
+	case "mapping_char":
+		exercise.MappingChar()
+	// +---+
+	// | S |
+	// +---+
 	case "string":
 		exercise.String(*pArgsMap["s"])
 	}

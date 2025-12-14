@@ -30,7 +30,12 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print(">>> ")
+		name, exists := engineOptions["name"]
+		if exists && name != "" {
+			fmt.Printf("[%s] ", name)
+		} else {
+			fmt.Print(">>> ")
+		}
 
 		if !scanner.Scan() { // 標準入力を読込みます
 			break // 入力がなければループを抜けます

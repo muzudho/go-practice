@@ -49,7 +49,10 @@ func main() {
 
 		tokens := strings.Split(commandLine2, " ") // コマンドラインを半角空白で区切る
 		programName := tokens[0]
+
+		//fmt.Printf("呼び出し前: pArgsMap = %v\n", pArgsMap)
 		pArgsMap = parseCommandLineArguments(programName, tokens[1:])
+		//fmt.Printf("呼び出し後: pArgsMap = %v\n", pArgsMap)
 		//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 		executeProgram(programName, pArgsMap, engineOptions)
@@ -59,8 +62,6 @@ func main() {
 // subsequentTokens - コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
 func parseCommandLineArguments(commandName string, subsequentTokens []string) map[string]*string {
 	//fmt.Printf("Command line entered: [%s]\n", commandLine)
-	var s string
-
 	fs1 := flag.NewFlagSet(commandName, flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
 
 	pArgsMap := make(map[string]*string) // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
@@ -82,32 +83,37 @@ func parseCommandLineArguments(commandName string, subsequentTokens []string) ma
 	// +---+
 	// | F |
 	// +---+
-	fs1.StringVar(&s, "f", "", "Target file path.")
-	pArgsMap["f"] = &s
+	var argF string
+	fs1.StringVar(&argF, "f", "", "Target file path.")
+	pArgsMap["f"] = &argF
 
 	// +---+
 	// | N |
 	// +---+
-	fs1.StringVar(&s, "n", "", "Option name.")
-	pArgsMap["n"] = &s
+	var argN string
+	fs1.StringVar(&argN, "n", "", "Option name.")
+	pArgsMap["n"] = &argN
 
 	// +---+
 	// | P |
 	// +---+
-	fs1.StringVar(&s, "p", "", "Program name. It is the file name under the 📁exercise folder.")
-	pArgsMap["p"] = &s
+	var argP string
+	fs1.StringVar(&argP, "p", "", "Program name. It is the file name under the 📁exercise folder.")
+	pArgsMap["p"] = &argP
 
 	// +---+
 	// | S |
 	// +---+
-	fs1.StringVar(&s, "s", "", "Target string.")
-	pArgsMap["s"] = &s
+	var argS string
+	fs1.StringVar(&argS, "s", "", "Target string.")
+	pArgsMap["s"] = &argS
 
 	// +---+
 	// | V |
 	// +---+
-	fs1.StringVar(&s, "v", "", "Option value.")
-	pArgsMap["v"] = &s
+	var argV string
+	fs1.StringVar(&argV, "v", "", "Option value.")
+	pArgsMap["v"] = &argV
 
 	fs1.Parse(subsequentTokens) // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
 
@@ -153,9 +159,7 @@ func executeProgram(programName string, pArgsMap map[string]*string, engineOptio
 	// | S |
 	// +---+
 	case "set-option":
-		fmt.Printf("呼び出し前: pArgsMap = %v\n", pArgsMap)
 		exercise.SetOption(*pArgsMap["n"], *pArgsMap["v"], engineOptions)
-		fmt.Printf("呼び出し後: pArgsMap = %v\n", pArgsMap)
 	case "string":
 		exercise.String(*pArgsMap["s"])
 

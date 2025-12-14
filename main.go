@@ -74,8 +74,8 @@ func executeProgram(programName string, pArgsMap map[string]*string) {
 	switch programName {
 	case "character":
 		exercise.Character(*pArgsMap["s"])
-	case "echo_stdio":
-		exercise.EchoStdio()
+	case "mapping_char":
+		exercise.MappingChar()
 	case "echo_proxy":
 		// ```
 		// echo_proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe

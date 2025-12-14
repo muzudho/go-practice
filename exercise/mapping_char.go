@@ -9,8 +9,8 @@ import (
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 var next = "BCDEFGHIJKLMNOPQRSTUVWXYZAbcdefghijklmnopqrstuvwxyza"
 
-// EchoStdio - bufioの練習。標準入力に A を入れたら、標準出力に B を返すだけ（＾～＾）
-func EchoStdio() {
+// MappingChar - bufioの練習。標準入力に A を入れたら、標準出力に B を返すだけ（＾～＾）
+func MappingChar() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for scanner.Scan() { // 標準入力を読込みます

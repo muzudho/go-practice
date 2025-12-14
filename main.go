@@ -17,11 +17,15 @@ func main() {
 		return // "quit" と入力されたらプログラムを抜けます。
 	}
 
+	//engineOptions := make(map[string]string)
+
 	programName := os.Args[0]
 	pArgsMap := parseCommandLineArguments(programName, os.Args[1:])
 	//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
-	executeProgram(*pArgsMap["p"], pArgsMap) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
+	if *pArgsMap["p"] != "" {
+		executeProgram(*pArgsMap["p"], pArgsMap) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
+	}
 
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -50,20 +54,55 @@ func main() {
 // subsequentTokens - コマンドラインから先頭のコマンド名を取り除いた、［２つ目以降の単語の配列］を取得
 func parseCommandLineArguments(commandName string, subsequentTokens []string) map[string]*string {
 	//fmt.Printf("Command line entered: [%s]\n", commandLine)
+	var s string
 
 	fs1 := flag.NewFlagSet(commandName, flag.ExitOnError) // 1. 引数のマッピング（FlagSet）を作成（エラー時はプログラムを終了）
 
-	pArgsMap := make(map[string]*string)                                                                 // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
-	pArgsMap["p"] = fs1.String("p", "", "Program name. It is the file name under the 📁exercise folder.") // 3. ［引数名］を登録し、後でその値が入る変数へのポインターを取得
-	pArgsMap["f"] = fs1.String("f", "", "Target file path.")
+	pArgsMap := make(map[string]*string) // 2. ［引数名］と、［その値が入る変数へのポインター］のマッピング（入れ物）を用意
+	// 3. 以下、fs1.String() 等で［引数名］を登録し、後でその値が入る変数へのポインターを取得
 
-	// 例： string -s "apple banana cherry"
-	// 以下だとダブルクォーテーションを解釈してくれない。-s は `"apple` になる：
+	// NOTE:
+	// 例えば以下のように打鍵するとします：
+	// ```
+	// string -s "apple banana cherry"
+	// ```
+	// 以下のような書き方をすると、
 	// 		pArgsMap["s"] = fs1.String("s", "", "Target string.")
+	// ダブルクォーテーションを解釈してくれない。-s は `"apple` になる：
 	// ３行になるが、以下のように書くと、ダブルクォーテーションを解釈してくれる。 -s は `apple banana cherry` になる：
-	var s string
+	//		var s string
+	//		fs1.StringVar(&s, "s", "", "Target string.")
+	// 		pArgsMap["s"] = &s
+
+	// +---+
+	// | F |
+	// +---+
+	fs1.StringVar(&s, "f", "", "Target file path.")
+	pArgsMap["f"] = &s
+
+	// +---+
+	// | N |
+	// +---+
+	fs1.StringVar(&s, "n", "", "Option name.")
+	pArgsMap["n"] = &s
+
+	// +---+
+	// | P |
+	// +---+
+	fs1.StringVar(&s, "p", "", "Program name. It is the file name under the 📁exercise folder.")
+	pArgsMap["p"] = &s
+
+	// +---+
+	// | S |
+	// +---+
 	fs1.StringVar(&s, "s", "", "Target string.")
 	pArgsMap["s"] = &s
+
+	// +---+
+	// | V |
+	// +---+
+	fs1.StringVar(&s, "v", "", "Option value.")
+	pArgsMap["v"] = &s
 
 	fs1.Parse(subsequentTokens) // 5. ［２つ目以降の単語の配列］を、コマンドライン引数として解釈
 
@@ -105,5 +144,8 @@ func executeProgram(programName string, pArgsMap map[string]*string) {
 	// +---+
 	case "string":
 		exercise.String(*pArgsMap["s"])
+
+	default:
+		exercise.Undefined(programName)
 	}
 }

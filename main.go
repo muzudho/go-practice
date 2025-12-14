@@ -30,9 +30,9 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		name, exists := engineOptions["name"]
-		if exists && name != "" {
-			fmt.Printf("[%s] ", name)
+		engineName, exists := engineOptions["engine"]
+		if exists && engineName != "" {
+			fmt.Printf("[%s] ", engineName)
 		} else {
 			fmt.Print(">>> ")
 		}
@@ -153,7 +153,9 @@ func executeProgram(programName string, pArgsMap map[string]*string, engineOptio
 	// | S |
 	// +---+
 	case "set-option":
+		fmt.Printf("呼び出し前: pArgsMap = %v\n", pArgsMap)
 		exercise.SetOption(*pArgsMap["n"], *pArgsMap["v"], engineOptions)
+		fmt.Printf("呼び出し後: pArgsMap = %v\n", pArgsMap)
 	case "string":
 		exercise.String(*pArgsMap["s"])
 

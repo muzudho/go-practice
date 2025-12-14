@@ -17,14 +17,14 @@ func main() {
 		return // "quit" と入力されたらプログラムを抜けます。
 	}
 
-	//engineOptions := make(map[string]string)
+	engineOptions := make(map[string]string)
 
 	programName := os.Args[0]
 	pArgsMap := parseCommandLineArguments(programName, os.Args[1:])
 	//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
 	if *pArgsMap["p"] != "" {
-		executeProgram(*pArgsMap["p"], pArgsMap) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
+		executeProgram(*pArgsMap["p"], pArgsMap, engineOptions) // コマンド名ではなく、`-p`引数で指定されたプログラムを実行
 	}
 
 	scanner := bufio.NewScanner(os.Stdin)
@@ -47,7 +47,7 @@ func main() {
 		pArgsMap = parseCommandLineArguments(programName, tokens[1:])
 		//fmt.Printf("programName=%s, p=%s\n", programName, *pArgsMap["p"]) // ちゃんとマッピングできたか確認。ヌルを指していれば、空文字列になるだけ。問題ない。
 
-		executeProgram(programName, pArgsMap)
+		executeProgram(programName, pArgsMap, engineOptions)
 	}
 }
 
@@ -109,7 +109,7 @@ func parseCommandLineArguments(commandName string, subsequentTokens []string) ma
 	return pArgsMap
 }
 
-func executeProgram(programName string, pArgsMap map[string]*string) {
+func executeProgram(programName string, pArgsMap map[string]*string, engineOptions map[string]string) {
 	switch programName {
 	// +---+
 	// | C |
@@ -130,6 +130,11 @@ func executeProgram(programName string, pArgsMap map[string]*string) {
 	case "fmt":
 		exercise.Fmt(*pArgsMap["s"])
 	// +---+
+	// | G |
+	// +---+
+	case "get-option":
+		exercise.GetOption(*pArgsMap["n"], engineOptions)
+	// +---+
 	// | H |
 	// +---+
 	case "hello":
@@ -142,6 +147,8 @@ func executeProgram(programName string, pArgsMap map[string]*string) {
 	// +---+
 	// | S |
 	// +---+
+	case "set-option":
+		exercise.SetOption(*pArgsMap["n"], *pArgsMap["v"], engineOptions)
 	case "string":
 		exercise.String(*pArgsMap["s"])
 

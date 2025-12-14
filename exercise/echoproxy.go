@@ -26,33 +26,35 @@ func EchoProxy(externalProcessPath string) {
 	//externalProcess := exec.Command(*exePath, parameters...) // 外部プロセスコマンド作成
 	externalProcess := exec.Command(externalProcessPath, parameters...) // 外部プロセスコマンド作成
 
-	stdin, err := externalProcess.StdinPipe() // 外部プロセス標準入力パイプ取得
+	exStdin, err := externalProcess.StdinPipe() // 外部プロセス標準入力パイプ取得
 	if err != nil {
 		panic(err)
 	}
-	defer stdin.Close() // stdin を使い終わったら、外部プロセス標準入力パイプクローズ
+	defer exStdin.Close() // stdin を使い終わったら、外部プロセス標準入力パイプクローズ
 
-	stdout, err := externalProcess.StdoutPipe() // 外部プロセス標準出力パイプ取得
+	exStdout, err := externalProcess.StdoutPipe() // 外部プロセス標準出力パイプ取得
 	if err != nil {
 		panic(err)
 	}
-	defer stdout.Close() // stdout を使い終わったら、外部プロセス標準出力パイプクローズ
+	defer exStdout.Close() // stdout を使い終わったら、外部プロセス標準出力パイプクローズ
 
 	err = externalProcess.Start() // 外部プロセス起動
 	if err != nil {
 		panic(fmt.Errorf("cmd.Start() --> [%s]", err))
 	}
 
-	go receiveStdout(stdout) // 外部プロセスの標準出力受信開始
+	go receiveStdout(exStdout) // 外部プロセスの標準出力受信開始
 
 	// Go言語では標準出力のUTF-8に対応していますが、VSCodeのターミナルはUTF-8に対応していないようです。
 	// `chcp 65001`
 	// そのため、外部プロセスの標準出力を受信しても、正しく表示されない場合があります。
 	// その場合は、WindowsのコマンドプロンプトやPowerShellなど、UTF-8に対応したターミナルで実行してください。
 
-	go receiveStdin(stdin) // 外部プロセスの標準入力送信開始
+	go receiveStdin(exStdin) // 外部プロセスの標準入力送信開始
 
+	print("外部プロセスと接続しました。文字を入力してください。\n")
 	externalProcess.Wait()
+	print("外部プロセスが終了しました。\n")
 }
 
 // receiveStdin - 標準入力受信

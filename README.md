@@ -23,6 +23,15 @@ go-practice
 ```
 
 ```shell
+go-practice -p set-option -n engine -v banana
+
+[banana] get-option -n engine
+    ## banana
+
+[banana] quit
+```
+
+```shell
 ## go-practice -p fmt
 ## go-practice -p mapping-char
 

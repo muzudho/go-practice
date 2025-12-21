@@ -8,10 +8,24 @@ go build
 ## Run
 ##      -p はプログラム名。📁 exercise 下のファイル名が入る。
 go-practice -p hello
+    ## world
+
+>>> quit
+```
+
+```shell
+go-practice
+
+>>> hello
+    ## world
+
+>>> quit
+```
+
+```shell
 ## go-practice -p fmt
 ## go-practice -p mapping-char
 
-## go-practice
 ## >>> character -s "B"
 ## >>> fmt -s "Hello, world!!"
 ## >>> fmt -s "日本語だったらどうなる（＾ｑ＾）？"

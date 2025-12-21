@@ -11,20 +11,12 @@ import (
 
 // EchoProxy - 外部プロセスの標準入出力をプロキシする練習
 func EchoProxy(externalProcessPath string) {
-	// // コマンドライン引数登録
-	// exePath := flag.String("exe", "", "Working directory path.")
-	// // 解析
-	// flag.Parse()
 
-	// if *exePath == "" {
-	// 	panic(fmt.Errorf("--exe <Executable file path>"))
-	// }
-
-	// exePath := "C:/Users/むずでょ/go/src/github.com/muzudho/go-echo-next-char/go-echo-next-char.exe"
+	// echo-proxy コマンドは、パラメーターは受け取っていません。
 	parameters := strings.Split("", " ")
 
-	//externalProcess := exec.Command(*exePath, parameters...) // 外部プロセスコマンド作成
 	externalProcess := exec.Command(externalProcessPath, parameters...) // 外部プロセスコマンド作成
+	// ワーキング・ディレクトリーは特に指定なし
 
 	exStdin, err := externalProcess.StdinPipe() // 外部プロセス標準入力パイプ取得
 	if err != nil {
@@ -55,6 +47,8 @@ func EchoProxy(externalProcessPath string) {
 	print("外部プロセスと接続しました。文字を入力してください。\n")
 	externalProcess.Wait()
 	print("外部プロセスが終了しました。\n")
+
+	// FIXME: 元のプロセスに戻ると、標準入力と標準出力は元に戻っているはずだが、入力ができない場合がある。
 }
 
 // receiveStdin - 標準入力受信

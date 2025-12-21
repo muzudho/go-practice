@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"runtime"
 )
 
 // EchoProxy - 外部プロセスの標準入出力をプロキシする練習
@@ -64,6 +65,9 @@ func EchoProxy(externalProcessPath string) {
 	exStdout.Close()
 
 	fmt.Print("外部プロセスが終了しました。\n")
+
+	// ガベージコレクションを強制実行して、os.Stdinの状態をクリーンにする
+	runtime.GC()
 
 	// これでos.Stdinの状態がクリーンになり、親プロセスで即入力可能
 }

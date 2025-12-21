@@ -153,7 +153,7 @@ func executeProgram(programName string, pArgsMap map[string]*string, engineOptio
 	// +---+
 	// | M |
 	// +---+
-	case "mapping_char":
+	case "mapping-char":
 		exercise.MappingChar()
 	// +---+
 	// | S |

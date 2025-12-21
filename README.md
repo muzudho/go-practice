@@ -9,7 +9,7 @@ go build
 ##      -p はプログラム名。📁 exercise 下のファイル名が入る。
 go-practice -p hello
 ## go-practice -p fmt
-## go-practice -p string
+## go-practice -p mapping-char
 
 ## go-practice
 ## >>> character -s "B"

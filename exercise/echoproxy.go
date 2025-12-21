@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 	"os/exec"
-	"runtime"
 )
 
 // EchoProxy - 外部プロセスの標準入出力をプロキシする練習
@@ -65,12 +64,7 @@ func EchoProxy(externalProcessPath string) {
 	exStdout.Close()
 
 	// ガベージコレクションを強制実行して、os.Stdinの状態をクリーンにする
-	runtime.GC()
-
-	// // Hack: os.Stdinのバッファをクリアする
-	// var dummy string
-	// // 標準入力のバッファをクリアするために、改行まで読み取る
-	// fmt.Scanln(&dummy)
+	//runtime.GC()
 
 	fmt.Print("外部プロセスが終了しました。呼び出し元プロセスの標準入力がクリーンになるまで、改行を送ってきてください。\n")
 
@@ -90,11 +84,13 @@ func receiveStdin(epStdin io.WriteCloser, done <-chan struct{}) {
 		select {
 		case <-done:
 			// プロセス終了シグナル受信: 残り入力をドレインして終了
+			//fmt.Println("[ｅchoproxy.go > ｒeceiveStding > done] 標準入力を読み込みます")
 			for scanner.Scan() {
 				// 無視（バッファクリア）
 			}
 			return
 		default:
+			//fmt.Println("[ｅchoproxy.go > ｒeceiveStding > default] 標準入力を読み込みます")
 			if !scanner.Scan() {
 				// エラーを処理する。
 				if err := scanner.Err(); err != nil {

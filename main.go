@@ -37,6 +37,7 @@ func main() {
 			fmt.Print(">>> ")
 		}
 
+		//fmt.Println("[ｍain.go > ｍain] 標準入力を読み込みます")
 		if !scanner.Scan() { // 標準入力を読込みます
 			break // 入力がなければループを抜けます
 		}

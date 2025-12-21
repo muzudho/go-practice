@@ -64,12 +64,17 @@ func EchoProxy(externalProcessPath string) {
 	exStdin.Close()
 	exStdout.Close()
 
-	fmt.Print("外部プロセスが終了しました。\n")
-
 	// ガベージコレクションを強制実行して、os.Stdinの状態をクリーンにする
 	runtime.GC()
 
-	// これでos.Stdinの状態がクリーンになり、親プロセスで即入力可能
+	// // Hack: os.Stdinのバッファをクリアする
+	// var dummy string
+	// // 標準入力のバッファをクリアするために、改行まで読み取る
+	// fmt.Scanln(&dummy)
+
+	fmt.Print("外部プロセスが終了しました。呼び出し元プロセスの標準入力がクリーンになるまで、改行を送ってきてください。\n")
+
+	// それが終わると、os.Stdinの状態がクリーンになり、親プロセスで即入力可能
 }
 
 // receiveStdin - 標準入力受信

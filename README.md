@@ -51,9 +51,12 @@ go-practice -p set-option -n engine -v banana
     ## world
 
 >>> quit
+    ## 外部プロセスが終了しました。呼び出し元プロセスの標準入力がクリーンになるまで、改行を送ってきてください。
 
-[banana] hello
-    ## FIXME: ここで応答が返ってこないことがある。もう１度繰り返す。
+    ## 以下、応答があるまで改行を入力。
+[banana]
+    ##
+    ## Undefined `` command.
 
 [banana] hello
     ## world

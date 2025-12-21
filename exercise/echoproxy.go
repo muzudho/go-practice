@@ -62,24 +62,15 @@ func EchoProxy(externalProcessPath string) {
 func receiveStdin(epStdin io.WriteCloser) {
     // 念入りに閉じること。
 	defer epStdin.Close() // Ensure close if goroutine exits early
-    
-	scanner := bufio.NewScanner(os.Stdin) // 標準入力を読み取るスキャナ作成
 
-	// FIXME: scanner.Err() エラー処理が必要？
+	scanner := bufio.NewScanner(os.Stdin) // 標準入力を読み取るスキャナ作成
 	for scanner.Scan() {
 		command := scanner.Text() // １行読み取り。UTF-8文字列。
-		
-		// この書き方は１行で書ける。
-		//epStdin.Write([]byte(command))
-		//epStdin.Write([]byte("\n"))
-		// こう書く
 		_, err := epStdin.Write([]byte(command + "\n"))
-		
-		// スキャンしたら、ループから抜けることが必要。
 		if err != nil {
 			// Pipe closed/broken: external process ended, stop consuming input
 			return
-		}		
+		}
 	}
 	
 	// エラーを処理する。
@@ -93,38 +84,23 @@ func receiveStdin(epStdin io.WriteCloser) {
 // `epStdout` - External process stdout
 func receiveStdout(epStdout io.ReadCloser) {
 	defer epStdout.Close() // 念入りに閉じること。
-    
+
     // UTF-8 文字は1バイト以上になることがあるから、１バイトずつ読込むのはよくない。
     // マルチバイト・バッファーを使う。
 	const bufferSize = 1024
 	buffer := make([]byte, bufferSize)
-    
-	//// FIXME: バッファサイズを1バイトにしているが、UTF-8文字列は1バイト以上になる場合がある。
-	//var buffer [1]byte // これが満たされるまで待つ。1バイト。
-	//p := buffer[:]
 
 	for {
 		n, err := epStdout.Read(buffer)
-		//n, err := epStdout.Read(p)
-
 		if err != nil {
 			if err == io.EOF {
 				return
 			}
-		  
-			//if fmt.Sprintf("%s", err) == "EOF" {
-			//	// End of file
-			//	return
-			//}
-
 			panic(err)
 		}
 
 		if 0 < n {
-		    fmt.Print(string(buffer[:n]))
-			// 思考エンジンから１文字送られてくるたび、表示。
-			//bytes := p[:n]
-			//print(string(bytes))
+			fmt.Print(string(buffer[:n]))
 		}
 	}
 	

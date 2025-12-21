@@ -52,7 +52,13 @@ go-practice -p set-option -n engine -v banana
 
 >>> quit
 
-[banana] 
+[banana] hello
+    ## FIXME: ここで応答が返ってこないことがある。もう１度繰り返す。
+
+[banana] hello
+    ## world
+
+[banana] quit
 ```
 
 

@@ -40,6 +40,20 @@ go-practice -p set-option -n engine -v banana
 ## >>> fmt -s "日本語だったらどうなる（＾ｑ＾）？"
 ## >>> fmt -s "apple バナナ Cherry"
 ## >>> fmt -s "体重は90kgぐらいかだぜ（＾ｑ＾）？"
+
+```shell
+go-practice -p set-option -n engine -v banana
+
+## 例えば、実行ファイルのパスは 📄 `Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe` だとします。  
+[banana] echo-proxy -f Z:/muzudho-github.com/muzudho/go-practice/go-practice.exe
+
+>>> hello
+    ## world
+
+>>> quit
+
+[banana] 
+```
 ```
 
 

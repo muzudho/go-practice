@@ -54,7 +54,6 @@ go-practice -p set-option -n engine -v banana
 
 [banana] 
 ```
-```
 
 
 ## 外部リンク
